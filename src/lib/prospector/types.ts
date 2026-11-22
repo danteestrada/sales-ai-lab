@@ -42,8 +42,17 @@ export type Contact = {
   title: string;
   sourceUrl: string;
   sourceDate: string; // when the source named them in this role
-  confidence: Confidence; // computed in code from sourceDate
+  confidence: Confidence; // computed in code from source freshness + verification
   check?: "correct" | "wrong"; // your spot-check
+  verify?: ContactCheck; // second, independent search: are they still there?
+};
+
+export type ContactCheck = {
+  status: "current" | "left" | "unclear";
+  note: string; // one line, e.g. "Left Sep 2026, now CFO at Acme"
+  url: string;
+  date: string; // date of the newest evidence found
+  checkedAt: string;
 };
 
 export type Research = {

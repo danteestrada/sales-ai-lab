@@ -1,8 +1,8 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { getClient, MODELS } from "../anthropic";
 import { readCompanySite } from "../fetch-site";
-import { contactConfidence } from "./scoring";
-import type { Account, Icp, Research, Settings } from "./types";
+import { finalConfidence } from "./scoring";
+import type { Account, Contact, ContactCheck, Icp, Research, Settings } from "./types";
 
 // ---------- shared agent loop ----------
 // Claude searches the web as many times as allowed, then must hand back its answer by
@@ -17,7 +17,9 @@ async function runAgent<T>(opts: {
   finalTool: Anthropic.Tool;
   maxSearches: number;
   maxTokens?: number;
+  model?: "smart" | "fast";
 }): Promise<RunResult<T>> {
+  const fast = opts.model === "fast";
   const tools: Anthropic.Messages.ToolUnion[] = [opts.finalTool];
   if (opts.maxSearches > 0) {
     tools.unshift({ type: "web_search_20250305", name: "web_search", max_uses: opts.maxSearches });
@@ -28,12 +30,12 @@ async function runAgent<T>(opts: {
 
   for (let turn = 0; turn < 8; turn++) {
     const msg = await getClient().messages.create({
-      model: MODELS.smart,
+      model: fast ? MODELS.fast : MODELS.smart,
       max_tokens: opts.maxTokens ?? 8000,
       system: opts.system,
       tools,
       tool_choice: { type: "auto" },
-      thinking: { type: "between_tools" },
+      ...(fast ? {} : { thinking: { type: "between_tools" as const } }),
       messages,
     });
     searches += msg.content.filter((b) => b.type === "server_tool_use").length;
@@ -247,12 +249,63 @@ Target account: ${target.name}${target.domain ? ` (${target.domain})` : ""}`;
     disqualified: Boolean(input.disqualified),
     disqualifiedReason: input.disqualifiedReason ?? "",
     criteria: (input.criteria ?? []).filter((c) => s.rubric.some((r) => r.id === c.id)),
-    contacts: (input.contacts ?? []).map((c) => ({ ...c, confidence: contactConfidence(c.sourceDate) })),
+    contacts: await verifyContacts(
+      (input.contacts ?? []).slice(0, 5),
+      input.company?.name || target.name,
+    ),
     personasToTarget: input.personasToTarget ?? [],
     opener: input.opener ?? "",
     searchesUsed: searches,
   };
   return { research, company: input.company };
+}
+
+// ---------- 2b. verify each contact is still in the role ----------
+// A separate, quick search per person that looks specifically for departures,
+// newer roles, or recent confirmation. Runs in parallel on the faster model.
+
+const verifyTool: Anthropic.Tool = {
+  name: "save_check",
+  description: "Save whether the person is still in the role.",
+  input_schema: {
+    type: "object",
+    properties: {
+      status: { type: "string", enum: ["current", "left", "unclear"] },
+      note: { type: "string", description: "One short line, e.g. 'Quoted as VP FP&A in Oct 2026 press release' or 'Left Sep 2026; now CFO at Acme'." },
+      url: { type: "string", description: "The source for the newest evidence." },
+      date: { type: "string", description: "Date of that evidence, YYYY-MM-DD or YYYY-MM; empty if unknown." },
+    },
+    required: ["status", "note", "url", "date"],
+  },
+};
+
+async function verifyContacts(raw: Omit<Contact, "confidence">[], company: string): Promise<Contact[]> {
+  const checked = await Promise.all(
+    raw.map(async (c) => {
+      let verify: ContactCheck | undefined;
+      try {
+        const { input } = await runAgent<Omit<ContactCheck, "checkedAt">>({
+          model: "fast",
+          system: `You verify whether a person still holds a job. Today is ${today()}.
+Search for the person by name and company. Look for: announcements that they left or joined elsewhere, a newer title, recent press/interviews/filings naming them in the role, and search-result snippets from profile pages.
+- "left": a credible source shows they left or now work elsewhere.
+- "current": a source from the last 6 months shows them in this role (or the role page lists them now).
+- "unclear": nothing recent either way.
+Never guess. Call save_check once.`,
+          prompt: `Person: ${c.name}\nRole: ${c.title}\nCompany: ${company}\nOriginal source (${c.sourceDate || "date unknown"}): ${c.sourceUrl}`,
+          finalTool: verifyTool,
+          maxSearches: 3,
+          maxTokens: 2000,
+        });
+        verify = { ...input, checkedAt: new Date().toISOString() };
+      } catch {
+        verify = undefined; // verification failed; fall back to the original source date
+      }
+      return { ...c, verify, confidence: finalConfidence(c.sourceDate, verify) };
+    }),
+  );
+  // People who left go to the bottom so you never call them first.
+  return checked.sort((a, b) => Number(a.verify?.status === "left") - Number(b.verify?.status === "left"));
 }
 
 // ---------- 3. draft the ICP from the seller's own website ----------

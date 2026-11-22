@@ -1,4 +1,4 @@
-import type { Account, Confidence, Criterion, WeightChange } from "./types";
+import type { Account, Confidence, ContactCheck, Criterion, WeightChange } from "./types";
 
 // Everything here is plain math: the AI never sets the final score or the confidence.
 
@@ -27,6 +27,20 @@ export function contactConfidence(sourceDate: string, now = new Date()): Confide
   if (days <= 120) return "high";
   if (days <= 365) return "medium";
   return "low";
+}
+
+// Combines the original source with the verification search.
+// Left = low. Confirmed current = judged by the newest evidence. Unclear = original source only.
+export function finalConfidence(sourceDate: string, verify?: ContactCheck, now = new Date()): Confidence {
+  if (!verify) return contactConfidence(sourceDate, now);
+  if (verify.status === "left") return "low";
+  if (verify.status === "current") {
+    const a = parseLooseDate(sourceDate)?.getTime() ?? 0;
+    const b = parseLooseDate(verify.date)?.getTime() ?? 0;
+    const newest = Math.max(a, b);
+    return newest ? contactConfidence(new Date(newest).toISOString().slice(0, 10), now) : "medium";
+  }
+  return contactConfidence(sourceDate, now);
 }
 
 export function parseLooseDate(s: string): Date | null {

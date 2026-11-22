@@ -46,7 +46,7 @@ export function AccountRow({
         <div className="hidden shrink-0 text-right text-xs text-muted sm:block">
           {r ? (
             <>
-              <p>{r.contacts.length} contact{r.contacts.length === 1 ? "" : "s"}</p>
+              <p>{activeContacts(r.contacts)} contact{activeContacts(r.contacts) === 1 ? "" : "s"}</p>
               <p>{timeAgo(r.researchedAt)}</p>
             </>
           ) : (
@@ -184,10 +184,10 @@ export function AccountDetail({
           ) : (
             <ul className="space-y-2">
               {r.contacts.map((c, i) => (
-                <li key={i} className="rounded-lg border border-line p-3 text-sm">
+                <li key={i} className={`rounded-lg border p-3 text-sm ${c.verify?.status === "left" ? "border-warn/40 bg-warn-soft/40" : "border-line"}`}>
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="font-medium">{c.name}</p>
+                      <p className={`font-medium ${c.verify?.status === "left" ? "line-through decoration-warn" : ""}`}>{c.name}</p>
                       <p className="text-muted">{c.title}</p>
                     </div>
                     <ConfidenceChip c={c.confidence} />
@@ -202,6 +202,7 @@ export function AccountDetail({
                       "no link"
                     )}
                   </p>
+                  {c.verify && <VerifyLine v={c.verify} />}
                   {owner && (
                     <div className="mt-2 flex items-center gap-2 text-xs">
                       <span className="text-muted">Spot-check:</span>
@@ -299,5 +300,29 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
       <h4 className="mb-1 text-sm font-semibold">{title}</h4>
       <p className="text-sm leading-relaxed">{children}</p>
     </div>
+  );
+}
+
+function activeContacts(cs: { verify?: { status: string } }[]) {
+  return cs.filter((c) => c.verify?.status !== "left").length;
+}
+
+function VerifyLine({ v }: { v: NonNullable<Account["research"]>["contacts"][number]["verify"] }) {
+  if (!v) return null;
+  const label = { current: "✓ Still in role", left: "⚠ Left the company", unclear: "? Couldn't confirm" }[v.status];
+  const tone = { current: "text-good", left: "text-warn", unclear: "text-muted" }[v.status];
+  return (
+    <p className="mt-1 text-xs">
+      <span className={`font-medium ${tone}`}>{label}</span>
+      <span className="text-muted">
+        {" "}· {v.note}
+        {v.date ? ` (${prettyDate(v.date)})` : ""}
+      </span>{" "}
+      {v.url?.startsWith("http") && (
+        <a href={v.url} target="_blank" rel="noreferrer" className="text-accent hover:underline">
+          {host(v.url)}
+        </a>
+      )}
+    </p>
   );
 }

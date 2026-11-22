@@ -102,7 +102,7 @@ export async function researchInto(ws: WorkspaceId, account: Account, trigger: T
       kind: "research",
       trigger,
       ok: true,
-      summary: `${updated.name}: scored ${updated.score} (${research.searchesUsed} searches, ${research.contacts.length} contacts).`,
+      summary: `${updated.name}: scored ${updated.score} (${research.searchesUsed} searches, ${research.contacts.filter((c) => c.verify?.status !== "left").length} contacts, ${research.contacts.filter((c) => c.verify?.status === "left").length} caught as departed).`,
     });
     return updated;
   } catch (e) {
@@ -168,7 +168,11 @@ export function redactForPublic(a: Account): Account {
     ...a,
     research: {
       ...a.research,
-      contacts: a.research.contacts.map((c) => ({ ...c, name: "Name hidden in public demo" })),
+      contacts: a.research.contacts.map((c) => ({
+        ...c,
+        name: "Name hidden in public demo",
+        verify: c.verify ? { ...c.verify, note: "", url: "" } : undefined,
+      })),
     },
   };
 }
