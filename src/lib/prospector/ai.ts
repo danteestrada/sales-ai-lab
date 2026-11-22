@@ -285,21 +285,31 @@ async function verifyContacts(raw: Omit<Contact, "confidence">[], company: strin
       let verify: ContactCheck | undefined;
       try {
         const { input } = await runAgent<Omit<ContactCheck, "checkedAt">>({
-          model: "fast",
           system: `You verify whether a person still holds a job. Today is ${today()}.
-Search for the person by name and company. Look for: announcements that they left or joined elsewhere, a newer title, recent press/interviews/filings naming them in the role, and search-result snippets from profile pages.
-- "left": a credible source shows they left or now work elsewhere.
+Search in this order:
+1. Their current LinkedIn headline: search "${c.name}" ${company} linkedin and read the result snippets (LinkedIn pages can't be opened, but snippets show the current title and employer). Also try just "${c.name}" linkedin with the job title.
+2. News of them leaving, joining another company, or being replaced.
+3. Recent press, interviews, filings or the company's leadership page naming them in the role.
+- "left": a credible source (including a LinkedIn snippet showing a different current employer) shows they left or now work elsewhere.
 - "current": a source from the last 6 months shows them in this role (or the role page lists them now).
 - "unclear": nothing recent either way.
 Never guess. Call save_check once.`,
           prompt: `Person: ${c.name}\nRole: ${c.title}\nCompany: ${company}\nOriginal source (${c.sourceDate || "date unknown"}): ${c.sourceUrl}`,
           finalTool: verifyTool,
-          maxSearches: 3,
-          maxTokens: 2000,
+          maxSearches: 4,
+          maxTokens: 3000,
         });
         verify = { ...input, checkedAt: new Date().toISOString() };
-      } catch {
-        verify = undefined; // verification failed; fall back to the original source date
+      } catch (e) {
+        // Never hide a failed check: show it on the contact.
+        console.error("contact check failed", c.name, e);
+        verify = {
+          status: "unclear",
+          note: `Check failed: ${e instanceof Error ? e.message.slice(0, 120) : "unknown error"}`,
+          url: "",
+          date: "",
+          checkedAt: new Date().toISOString(),
+        };
       }
       return { ...c, verify, confidence: finalConfidence(c.sourceDate, verify) };
     }),
