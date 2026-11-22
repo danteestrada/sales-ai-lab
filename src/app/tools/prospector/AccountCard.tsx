@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FEEDBACK_REASONS } from "@/lib/prospector/defaults";
 import type { Account, Criterion, WeightChange } from "@/lib/prospector/types";
-import { api, Button, ConfidenceChip, host, prettyDate, ScoreBadge, timeAgo } from "./ui";
+import { api, Bullets, Button, ConfidenceChip, host, prettyDate, ScoreBadge, timeAgo, toBullets } from "./ui";
 
 export function AccountRow({
   account,
@@ -40,7 +40,7 @@ export function AccountRow({
           </div>
           <p className="text-xs text-muted">{[account.industry, account.employees && `${account.employees} employees`, account.hq || account.region].filter(Boolean).join(" · ")}</p>
           <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed">
-            {status === "done" ? r?.whyNow : status === "error" ? `Research failed: ${account.error}` : account.discoveryReason}
+            {status === "done" ? toBullets(r?.whyNow)[0] : status === "error" ? `Research failed: ${account.error}` : account.discoveryReason}
           </p>
         </div>
         <div className="hidden shrink-0 text-right text-xs text-muted sm:block">
@@ -123,8 +123,14 @@ export function AccountDetail({
         </div>
       )}
       <div className="grid gap-5 md:grid-cols-2">
-        <Block title="Why now">{r.whyNow}</Block>
-        <Block title="Why not">{r.whyNot}</Block>
+        <div>
+          <h4 className="mb-1.5 text-sm font-semibold text-good">Why now</h4>
+          <Bullets text={r.whyNow} />
+        </div>
+        <div>
+          <h4 className="mb-1.5 text-sm font-semibold text-warn">Why not</h4>
+          <Bullets text={r.whyNot} />
+        </div>
       </div>
 
       <div>
@@ -147,9 +153,10 @@ export function AccountDetail({
                     <span className="w-8 text-right font-mono text-xs tabular-nums">{s ? `${s.score}/5` : "—"}</span>
                   </span>
                 </div>
-                {s && <p className="mt-1.5 text-sm text-muted">{s.reasoning}</p>}
+                {s && <Bullets text={s.reasoning} className="mt-2 text-muted" />}
                 {s && s.evidence.length > 0 && (
-                  <ul className="mt-2 space-y-1">
+                  <ul className="mt-2 space-y-1 border-t border-line pt-2">
+                    <li className="font-mono text-[10px] uppercase tracking-wider text-muted">Sources</li>
                     {s.evidence.map((ev, i) => (
                       <li key={i} className="text-xs">
                         <span>{ev.fact}</span>{" "}

@@ -165,8 +165,8 @@ const researchTool: Anthropic.Tool = {
         },
         required: ["name", "domain", "hq", "region", "industry", "employees"],
       },
-      whyNow: { type: "string", description: "2-3 sentences a seller could act on: why this account, why now. Specific, dated, no hype." },
-      whyNot: { type: "string", description: "The honest case against pursuing it now." },
+      whyNow: { type: "string", description: "2-4 short bullet points a seller could act on: why this account, why now. One line each, each starting with '- '. Specific, dated, no hype." },
+      whyNot: { type: "string", description: "1-3 short bullet points: the honest case against pursuing it now. One line each, each starting with '- '." },
       disqualified: { type: "boolean" },
       disqualifiedReason: { type: "string" },
       criteria: {
@@ -177,7 +177,7 @@ const researchTool: Anthropic.Tool = {
           properties: {
             id: { type: "string" },
             score: { type: "number", description: "0-5" },
-            reasoning: { type: "string", description: "One or two sentences." },
+            reasoning: { type: "string", description: "1-3 short bullet points, one line each, each starting with '- '." },
             evidence: {
               type: "array",
               items: {

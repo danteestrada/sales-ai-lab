@@ -110,3 +110,26 @@ export function host(url: string): string {
     return url;
   }
 }
+
+// Turns AI text into bullet points. New research comes as "- " lines;
+// older research is split into sentences.
+export function toBullets(text: string | undefined): string[] {
+  if (!text) return [];
+  const lines = text
+    .split(/\n+/)
+    .map((l) => l.replace(/^\s*[-•*]\s*/, "").trim())
+    .filter(Boolean);
+  if (lines.length > 1) return lines;
+  return (text.match(/[^.!?]+(?:[.!?](?=\s|$)|$)/g) ?? [text]).map((s) => s.trim()).filter(Boolean);
+}
+
+export function Bullets({ text, className = "" }: { text: string | undefined; className?: string }) {
+  const items = toBullets(text);
+  return (
+    <ul className={`list-disc space-y-1 pl-5 text-sm leading-relaxed ${className}`}>
+      {items.map((b, i) => (
+        <li key={i}>{b}</li>
+      ))}
+    </ul>
+  );
+}
