@@ -52,11 +52,12 @@ export default function Home() {
             AI tools that do the research, so sellers can sell.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-            Prospecting, pipeline reviews, business cases and call prep, built by a B2B seller and tested on real
-            accounts. Every answer shows its sources, and the accuracy numbers get published, misses included.
+            Prospecting, pipeline reviews, business cases and call prep, built from the seller&apos;s side of the table
+            and tested on real accounts. Every answer shows its sources, and the accuracy numbers get published, misses
+            included.
           </p>
           <p className="label-caps mt-6 max-w-xl leading-loose text-muted">
-            B2B sales to CFOs and FP&amp;A leaders at HighRadius and Planful · Baylor finance · AWS and Databricks certified
+            Live web research · Scores calculated in code · Contacts verified before they reach you
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link href="/tools/prospector" className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">
