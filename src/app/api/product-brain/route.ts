@@ -1,3 +1,4 @@
+import Anthropic from "@anthropic-ai/sdk";
 import { getClient, MissingKeyError, MODELS } from "@/lib/anthropic";
 import { FetchError, readCompanySite } from "@/lib/fetch-site";
 import { profileTool, SYSTEM_PROMPT, type Profile } from "@/lib/product-brain";
@@ -23,22 +24,31 @@ export async function POST(req: Request) {
     const pages = await readCompanySite(body.url);
     const pageText = pages.map((p) => `<page url="${p.url}">\n${p.text}\n</page>`).join("\n\n");
 
-    const msg = await getClient().messages.create({
-      model: MODELS.smart,
-      max_tokens: 4000,
-      system: SYSTEM_PROMPT,
-      tools: [profileTool],
-      tool_choice: { type: "tool", name: "save_profile" },
-      messages: [
-        {
-          role: "user",
-          content: `Build the profile for the company whose website pages are below.\n\n${pageText}`,
-        },
-      ],
-    });
+    // Sonnet 5.5 doesn't allow forcing a tool, so we ask for it by name and
+    // retry once if the model answers in plain text instead.
+    const ask = () =>
+      getClient().messages.create({
+        model: MODELS.smart,
+        max_tokens: 6000,
+        system: SYSTEM_PROMPT,
+        tools: [profileTool],
+        tool_choice: { type: "auto" },
+        thinking: { type: "between_tools" }, // skip long up-front thinking to keep it fast
+        messages: [
+          {
+            role: "user",
+            content: `Build the profile for the company whose website pages are below. Respond only by calling the save_profile tool.\n\n${pageText}`,
+          },
+        ],
+      });
 
-    const call = msg.content.find((b) => b.type === "tool_use");
-    if (!call || call.type !== "tool_use") throw new Error("No profile returned");
+    let msg = await ask();
+    let call = msg.content.find((b) => b.type === "tool_use");
+    if (!call) {
+      msg = await ask();
+      call = msg.content.find((b) => b.type === "tool_use");
+    }
+    if (!call || call.type !== "tool_use") throw new Error(`No profile returned (stop_reason: ${msg.stop_reason})`);
 
     const profile: Profile = {
       ...(call.input as Omit<Profile, "website" | "sourcesRead">),
@@ -52,6 +62,8 @@ export async function POST(req: Request) {
       return Response.json({ error: "The AI isn't connected yet (missing API key)." }, { status: 503 });
     }
     console.error("product-brain failed", e);
-    return Response.json({ error: "Something went wrong building the profile. Try again in a minute." }, { status: 500 });
+    // Show a short reason (never the API key) so problems are easy to diagnose.
+    const reason = e instanceof Anthropic.APIError ? `AI error ${e.status ?? ""}: ${e.message}`.slice(0, 200) : e instanceof Error ? e.message.slice(0, 200) : "unknown";
+    return Response.json({ error: `Something went wrong building the profile. Try again in a minute. (${reason})` }, { status: 500 });
   }
 }
