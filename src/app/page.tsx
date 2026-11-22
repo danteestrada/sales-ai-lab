@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ContactForm from "@/components/ContactForm";
 import { CredentialIcon } from "@/components/icons";
 import { credentials, person, tools, type ToolStatus } from "@/lib/site";
 
@@ -48,22 +49,21 @@ export default function Home() {
             </div>
           </div>
           <h1 className="mt-10 max-w-2xl text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-            I&apos;m a B2B seller who builds his own AI tools.
+            AI tools that do the research, so sellers can sell.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-            I&apos;ve spent the last year and a half selling to CFOs and FP&amp;A leaders at HighRadius and Planful.
-            I&apos;m at my best in front of a buyer: building trust, finding the real problem, and moving the deal forward.
+            Prospecting, pipeline reviews, business cases and call prep, built by a B2B seller and tested on real
+            accounts. Every answer shows its sources, and the accuracy numbers get published, misses included.
           </p>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
-            The research, list building and admin around that eat hours. So I build tools that do that work, and I test
-            them on real accounts before they go up here.
+          <p className="label-caps mt-6 max-w-xl leading-loose text-muted">
+            B2B sales to CFOs and FP&amp;A leaders at HighRadius and Planful · Baylor finance · AWS and Databricks certified
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link href="/tools/prospector" className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">
               Try the Prospector
             </Link>
             <Link href="#tools" className="rounded-md border border-white/20 px-5 py-3 text-sm font-medium hover:border-white/50">
-              See what I&apos;m building
+              See the tools
             </Link>
           </div>
         </div>
@@ -139,17 +139,10 @@ export default function Home() {
           </div>
           <h2 className="mt-6 text-2xl font-semibold tracking-tight">Get in touch</h2>
           <p className="mt-3 max-w-xl text-muted">
-            I&apos;m looking for an Account Executive role selling cloud, data or AI software. If you want to see any of
-            this live, I&apos;ll walk you through it.
+            Looking for an Account Executive role selling cloud, data or AI software. Hiring? Send a note, or connect on{" "}
+            <a href={person.linkedin} className="text-ink underline decoration-white/30 underline-offset-4 hover:decoration-white">LinkedIn</a>.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <a href={`mailto:${person.email}`} className="rounded-md bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">
-              {person.email}
-            </a>
-            <a href={person.linkedin} className="rounded-md border border-white/20 px-5 py-3 text-sm font-medium hover:border-white/50">
-              LinkedIn
-            </a>
-          </div>
+          <ContactForm />
         </div>
       </section>
     </>

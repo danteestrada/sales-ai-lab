@@ -1,5 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { DEFAULT_SETTINGS } from "./prospector/defaults";
+import type { Submission } from "./contact";
 import type { Account, RunLog, Settings, WeightChange, Workspace } from "./prospector/types";
 
 // Storage lives in an Upstash Redis database connected through Vercel.
@@ -98,4 +99,19 @@ export async function bumpDaily(key: string): Promise<number> {
   const n = await db().incr(full);
   if (n === 1) await db().expire(full, 60 * 60 * 26);
   return n;
+}
+
+// ---------- contact form submissions ----------
+
+export async function saveSubmission(s: Submission) {
+  await db().hset("contact:submissions", { [s.id]: s });
+}
+
+export async function getSubmissions(): Promise<Submission[]> {
+  const all = await db().hgetall<Record<string, Submission>>("contact:submissions");
+  return all ? Object.values(all).sort((a, b) => (a.at < b.at ? 1 : -1)) : [];
+}
+
+export async function getSubmission(id: string): Promise<Submission | null> {
+  return (await db().hget<Submission>("contact:submissions", id)) ?? null;
 }
