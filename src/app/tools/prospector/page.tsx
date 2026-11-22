@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ProspectorApp from "./ProspectorApp";
 
 export const metadata: Metadata = {
-  title: "ICP Prospector — Sales AI Lab",
+  title: "ICP Prospector | Sales AI Lab",
   description: "Finds accounts that fit now, explains why with dated sources, verifies contacts, and learns from feedback.",
 };
 

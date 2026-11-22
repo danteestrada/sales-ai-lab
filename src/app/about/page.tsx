@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { credentials, person } from "@/lib/site";
 
-export const metadata: Metadata = { title: "About — Sales AI Lab" };
+export const metadata: Metadata = { title: "About | Sales AI Lab" };
 
 export default function About() {
   return (
@@ -11,25 +11,23 @@ export default function About() {
 
       <div className="mt-8 space-y-5 text-lg leading-relaxed">
         <p>
-          I studied finance at Baylor so I can talk ROI, payback and risk with the people who sign. I studied
-          entrepreneurship because I&apos;m comfortable building from zero. I earned my AWS and Databricks credentials to
-          understand how cloud, data and AI actually work — enough to ask better questions and never overpromise
-          what the technology can do.
+          I studied finance and entrepreneurship at Baylor. Finance is why I&apos;m comfortable talking payback and
+          ROI with a CFO. Entrepreneurship is why I like building things from nothing.
         </p>
         <p>
-          My sales career has run through commission car sales, JPMorgan Chase, Impact Networking, and SaaS
-          business development at HighRadius and Planful, where I spent my days on the phones with CFOs and finance
-          leaders.
+          I started in commission car sales, then worked at JPMorgan Chase and Impact Networking before moving into
+          SaaS. At HighRadius and Planful my job was getting finance leaders, mostly CFOs and FP&amp;A teams, to take a meeting.
         </p>
         <p>
-          The part of that job I loved was the conversation. The part I didn&apos;t was everything around it: hours to
-          find one good prospect, pipeline reviews built on gut feel, business cases rebuilt from scratch. So I started
-          building tools that take those parts over — and holding them to the same standard I&apos;d hold a junior
-          analyst: show your sources, flag what you&apos;re guessing, and get measured.
+          I liked the conversations. I didn&apos;t like the hours it took to find one good person to call, or pipeline
+          reviews that came down to gut feel. So I started building tools to fix that, and I hold them to the same
+          standard I&apos;d hold a new analyst: show your sources, say when you&apos;re guessing, and let me check your
+          work.
         </p>
-        <p className="text-muted">
-          I want to be the rep who can translate between business, finance and technical teams on cloud and AI deals.
-          This lab is the proof.
+        <p>
+          I got my AWS and Databricks certifications so I could follow the technical side of a deal. I&apos;m not an
+          engineer, but I can ask the right questions and I won&apos;t promise a customer something the product
+          can&apos;t do.
         </p>
       </div>
 

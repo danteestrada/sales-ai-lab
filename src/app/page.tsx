@@ -10,20 +10,20 @@ const statusStyle: Record<ToolStatus, string> = {
 
 const principles = [
   {
-    title: "Faster, smarter, or it doesn't ship",
-    body: "Every tool has to give a seller back time or sharpen a decision. Anything else is a demo, not a tool.",
+    title: "Saves time or it doesn't ship",
+    body: "If a tool doesn't save a rep time or help them make a better call, I don't build it.",
   },
   {
-    title: "Show the work",
-    body: "Claims are marked as sourced or inferred, with links. Buyers fact-check AI; sellers should too.",
+    title: "Sources on everything",
+    body: "Every claim shows where it came from and when. If the AI is guessing, it says so.",
   },
   {
-    title: "Measured, not vibes",
-    body: "Each tool gets tested against real cases, and the results get published — including where it falls short.",
+    title: "I measure it",
+    body: "I check the results against reality and post the numbers here, misses included.",
   },
   {
     title: "Works for any company",
-    body: "Point it at AWS, Microsoft or a 40-person startup. Set the ICP once from your company's website; every tool reuses it.",
+    body: "Nothing is built for one employer. Set your ICP once and point it at whatever you sell.",
   },
 ];
 
@@ -33,19 +33,22 @@ export default function Home() {
       <section className="mx-auto max-w-5xl px-6 pt-16 pb-12 md:pt-24">
         <p className="font-mono text-xs uppercase tracking-widest text-muted">{person.name} · {person.location}</p>
         <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
-          I sell B2B software. I also build the AI tools that make selling it faster and sharper.
+          I&apos;m a B2B seller who builds his own AI tools.
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-          Finance-trained at Baylor, AWS and Databricks certified, and fresh off the phones calling CFOs and finance leaders.
-          This lab is where I turn the worst parts of the sales job into software — prospecting, pipeline reviews,
-          business cases, call prep — and test whether it actually works.
+          I&apos;ve spent the last year and a half on the phones with CFOs and FP&amp;A leaders at HighRadius and Planful. Most of my
+          day went to hunting for someone worth calling. I&apos;d rather spend it on the calls.
+        </p>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+          So I build tools that handle the hunting and the busywork, and I test them on real accounts before they go up
+          here.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/tools/prospector" className="rounded-lg bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">
             Try the Prospector
           </Link>
           <Link href="#tools" className="rounded-lg border border-line bg-card px-5 py-3 text-sm font-medium hover:border-ink">
-            See all tools
+            See what I&apos;m building
           </Link>
         </div>
       </section>
@@ -63,9 +66,9 @@ export default function Home() {
       </section>
 
       <section id="tools" className="mx-auto max-w-5xl scroll-mt-8 px-6 py-16">
-        <h2 className="text-2xl font-semibold tracking-tight">The tools</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">What&apos;s here</h2>
         <p className="mt-2 max-w-2xl text-muted">
-          Built in public. Live ones work right now with no sign-up.
+          Live tools work right now, no sign-up. The rest are in progress.
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {tools.map((t) => {
@@ -94,7 +97,7 @@ export default function Home() {
 
       <section className="border-t border-line">
         <div className="mx-auto max-w-5xl px-6 py-16">
-          <h2 className="text-2xl font-semibold tracking-tight">How I build</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">How I build these</h2>
           <div className="mt-8 grid gap-8 md:grid-cols-2">
             {principles.map((p) => (
               <div key={p.title}>
@@ -108,10 +111,10 @@ export default function Home() {
 
       <section id="contact" className="scroll-mt-8 border-t border-line bg-ink text-paper">
         <div className="mx-auto max-w-5xl px-6 py-16">
-          <h2 className="text-2xl font-semibold tracking-tight">Let&apos;s talk</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">Get in touch</h2>
           <p className="mt-3 max-w-2xl text-paper/70">
-            I&apos;m looking for an Account Executive role selling cloud, data or AI software. If you&apos;d like a live
-            walkthrough of anything here, I&apos;m happy to give one.
+            I&apos;m looking for an Account Executive role selling cloud, data or AI software. If you want to see any of
+            this live, I&apos;ll walk you through it.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href={`mailto:${person.email}`} className="rounded-lg bg-paper px-5 py-3 text-sm font-medium text-ink hover:opacity-90">

@@ -10,10 +10,10 @@ export const person = {
 };
 
 export const credentials = [
-  { title: "BBA, Finance & Entrepreneurship", org: "Baylor University", note: "Talk ROI, payback and risk with finance buyers" },
-  { title: "AWS Certified Cloud Practitioner", org: "Amazon Web Services", note: "How cloud economics and architecture actually work" },
-  { title: "AWS Certified AI Practitioner", org: "Amazon Web Services", note: "What AI can and can't do, so I don't overpromise it" },
-  { title: "Databricks Fundamentals", org: "Databricks", note: "How data platforms fit into the AI stack" },
+  { title: "BBA, Finance & Entrepreneurship", org: "Baylor University", note: "I can talk payback and ROI with a CFO" },
+  { title: "AWS Certified Cloud Practitioner", org: "Amazon Web Services", note: "How cloud costs and architecture work" },
+  { title: "AWS Certified AI Practitioner", org: "Amazon Web Services", note: "What AI can and can't do for a customer" },
+  { title: "Databricks Fundamentals", org: "Databricks", note: "Where data platforms fit in an AI project" },
 ];
 
 export type ToolStatus = "live" | "building" | "planned";
@@ -29,39 +29,39 @@ export const tools: {
   {
     slug: "prospector",
     name: "ICP Prospector",
-    oneLiner: "Finds accounts that fit now, explains why with dated sources, names buyers only when a source does, and ranks them with a score calculated from your own weights.",
-    impact: "Runs nightly in the background and learns from your 👍/👎 — you can see exactly how its weights move.",
+    oneLiner: "Finds companies that fit your ICP right now, shows you why with dated sources, and checks that each contact still works there.",
+    impact: "In my first test, 1 of 4 contacts had already left. Now every name gets a second check for departures before it reaches you.",
     status: "live",
   },
   {
     slug: "deal-desk",
     name: "Deal Desk",
-    oneLiner: "Scores pipeline risk, tells you when to cut bait and where those hours go instead — and argues back honestly when you disagree.",
-    impact: "Includes The Meeting You're Not In: AI buyers debate your proposal so you see where it dies.",
+    oneLiner: "Reviews your pipeline, flags the deals that are stalling, and tells you when to walk away and where to spend that time instead.",
+    impact: "You can argue with it. New facts change its mind. Wishful thinking doesn't.",
     status: "planned",
     eta: "December",
   },
   {
     slug: "champion-kit",
     name: "Champion Kit",
-    oneLiner: "Writes the internal business case your champion forwards to their CFO: payback, NPV, risks, and answers to procurement and security.",
-    impact: "Built for the buyer, not the seller. The math runs in code, not in the AI's head.",
+    oneLiner: "Builds the business case your champion forwards to their CFO: payback, NPV, risks, and answers for procurement and security.",
+    impact: "Built for the buyer. The math runs in code, so every number can be checked.",
     status: "planned",
     eta: "December",
   },
   {
     slug: "fact-checker",
     name: "Outreach Fact-Checker",
-    oneLiner: "Checks every claim in a cold email against live sources, flags what's wrong, and scores relevance — not just personalization.",
-    impact: "94% of B2B buyers fact-check AI. This makes sure your outreach survives it.",
+    oneLiner: "Checks every claim in a cold email against live sources before you send it, and tells you if the email is relevant to the buyer.",
+    impact: "Buyers fact-check AI-written outreach. This catches the mistakes first.",
     status: "planned",
     eta: "December",
   },
   {
     slug: "call-coach",
     name: "Live Call Coach",
-    oneLiner: "Practice against a skeptical AI buyer out loud, with live coaching cards in your own voice and a scorecard after.",
-    impact: "Live mode listens to real calls and surfaces objection responses in about two seconds.",
+    oneLiner: "Practice cold calls out loud against an AI buyer who pushes back, with coaching cards while you talk and a scorecard at the end.",
+    impact: "Later: live help on real calls, in your own words.",
     status: "planned",
     eta: "January",
   },

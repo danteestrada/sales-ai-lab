@@ -6,7 +6,7 @@ import { person } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sales AI Lab — Dante Estrada",
+  title: "Sales AI Lab | Dante Estrada",
   description: "AI tools that make B2B SaaS sellers faster and sharper. Built by Dante Estrada.",
 };
 

@@ -36,7 +36,7 @@ export function checkLimit(id: string, ownerKey?: string | null): LimitResult {
     return {
       ok: false,
       reason: "site",
-      message: "The lab has hit its daily demo limit. It resets at midnight UTC — or reach out and I'll walk you through it live.",
+      message: "The lab has hit its daily demo limit. It resets at midnight UTC. Or reach out and I'll walk you through it live.",
     };
   }
   const v = visitors.get(id);
