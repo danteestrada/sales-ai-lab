@@ -16,7 +16,7 @@ const steps = [
 export default function Page() {
   return (
     <div className="mx-auto max-w-5xl px-6 py-14">
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">Tool · Live</p>
+      <p className="label-caps text-muted">Tool · Live</p>
       <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">ICP Prospector</h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
         The worst part of an SDR&apos;s day is hours on LinkedIn looking for one good account. This finds accounts that fit
@@ -26,7 +26,7 @@ export default function Page() {
       <ol className="mt-8 grid gap-4 md:grid-cols-4">
         {steps.map((s, i) => (
           <li key={s.title} className="rounded-xl border border-line bg-card p-4">
-            <p className="font-mono text-xs text-muted">0{i + 1}</p>
+            <p className="label-caps text-muted">0{i + 1}</p>
             <p className="mt-1 font-semibold">{s.title}</p>
             <p className="mt-1 text-sm leading-relaxed text-muted">{s.body}</p>
           </li>

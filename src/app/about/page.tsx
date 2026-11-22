@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { CredentialIcon } from "@/components/icons";
 import { credentials, person } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About | Sales AI Lab" };
@@ -6,8 +8,14 @@ export const metadata: Metadata = { title: "About | Sales AI Lab" };
 export default function About() {
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
-      <p className="font-mono text-xs uppercase tracking-widest text-muted">About</p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight">{person.name}</h1>
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+        <Image src="/headshot.png" alt={person.name} width={140} height={140} priority className="rounded-full ring-1 ring-white/15" />
+        <div>
+          <p className="label-caps text-muted">About</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{person.name}</h1>
+          <p className="mt-1 text-muted">B2B seller · {person.location}</p>
+        </div>
+      </div>
 
       <div className="mt-8 space-y-5 text-lg leading-relaxed">
         <p>
@@ -34,9 +42,12 @@ export default function About() {
       <h2 className="mt-14 text-xl font-semibold">Credentials</h2>
       <ul className="mt-4 divide-y divide-line border-y border-line">
         {credentials.map((c) => (
-          <li key={c.title} className="py-4">
-            <p className="font-medium">{c.title} <span className="font-normal text-muted">· {c.org}</span></p>
-            <p className="text-sm text-muted">{c.note}</p>
+          <li key={c.title} className="flex items-center gap-4 py-4">
+            <CredentialIcon kind={c.icon} />
+            <div>
+              <p className="font-medium">{c.title} <span className="font-normal text-muted">· {c.org}</span></p>
+              <p className="text-sm text-muted">{c.note}</p>
+            </div>
           </li>
         ))}
       </ul>

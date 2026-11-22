@@ -76,7 +76,7 @@ export function Button({
 }) {
   const styles = {
     primary: "bg-ink text-paper hover:opacity-90",
-    accent: "bg-accent text-white hover:opacity-90",
+    accent: "bg-accent text-paper hover:opacity-90",
     secondary: "border border-line bg-card hover:border-ink",
     ghost: "text-muted hover:text-ink",
   }[variant];

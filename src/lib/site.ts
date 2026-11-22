@@ -9,11 +9,13 @@ export const person = {
   github: "https://github.com/danteestrada/sales-ai-lab",
 };
 
-export const credentials = [
-  { title: "BBA, Finance & Entrepreneurship", org: "Baylor University", note: "I can talk payback and ROI with a CFO" },
-  { title: "AWS Certified Cloud Practitioner", org: "Amazon Web Services", note: "How cloud costs and architecture work" },
-  { title: "AWS Certified AI Practitioner", org: "Amazon Web Services", note: "What AI can and can't do for a customer" },
-  { title: "Databricks Fundamentals", org: "Databricks", note: "Where data platforms fit in an AI project" },
+import type { IconKind } from "@/components/icons";
+
+export const credentials: { title: string; org: string; note: string; icon: IconKind }[] = [
+  { title: "BBA, Finance & Entrepreneurship", org: "Baylor University", icon: "degree", note: "I can talk payback and ROI with a CFO" },
+  { title: "AWS Certified Cloud Practitioner", org: "Amazon Web Services", icon: "cloud", note: "How cloud costs and architecture work" },
+  { title: "AWS Certified AI Practitioner", org: "Amazon Web Services", icon: "ai", note: "What AI can and can't do for a customer" },
+  { title: "Databricks Fundamentals", org: "Databricks", icon: "data", note: "Where data platforms fit in an AI project" },
 ];
 
 export type ToolStatus = "live" | "building" | "planned";
