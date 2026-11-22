@@ -36,12 +36,12 @@ export default function Home() {
           I&apos;m a B2B seller who builds his own AI tools.
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-          I&apos;ve spent the last year and a half on the phones with CFOs and FP&amp;A leaders at HighRadius and Planful. Most of my
-          day went to hunting for someone worth calling. I&apos;d rather spend it on the calls.
+          I&apos;ve spent the last year and a half selling to CFOs and FP&amp;A leaders at HighRadius and Planful.
+          I&apos;m at my best in front of a buyer: building trust, finding the real problem, and moving the deal forward.
         </p>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          So I build tools that handle the hunting and the busywork, and I test them on real accounts before they go up
-          here.
+          The research, list building and admin around that eat hours. So I build tools that do that work, and I test
+          them on real accounts before they go up here.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/tools/prospector" className="rounded-lg bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">

@@ -16,11 +16,11 @@ export default function About() {
         </p>
         <p>
           I started in commission car sales, then worked at JPMorgan Chase and Impact Networking before moving into
-          SaaS. At HighRadius and Planful my job was getting finance leaders, mostly CFOs and FP&amp;A teams, to take a meeting.
+          SaaS. At HighRadius and Planful I sold to finance leaders, mostly CFOs and FP&amp;A teams.
         </p>
         <p>
-          I liked the conversations. I didn&apos;t like the hours it took to find one good person to call, or pipeline
-          reviews that came down to gut feel. So I started building tools to fix that, and I hold them to the same
+          I&apos;m at my best in front of a buyer. The hours of research, list building and pipeline guesswork around
+          that are what I automate. I hold the tools to the same
           standard I&apos;d hold a new analyst: show your sources, say when you&apos;re guessing, and let me check your
           work.
         </p>
