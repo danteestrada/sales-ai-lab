@@ -27,10 +27,10 @@ export const tools: {
   eta?: string;
 }[] = [
   {
-    slug: "product-brain",
-    name: "Product Brain",
-    oneLiner: "Paste any company's website. Get its ICP, buyer personas, value props, competitors and proof points — with every claim marked as sourced or inferred.",
-    impact: "Every other tool runs on it, so the whole lab works for AWS, iDeals or anyone else.",
+    slug: "prospector",
+    name: "ICP Prospector",
+    oneLiner: "Finds accounts that fit now, explains why with dated sources, names buyers only when a source does, and ranks them with a score calculated from your own weights.",
+    impact: "Runs nightly in the background and learns from your 👍/👎 — you can see exactly how its weights move.",
     status: "live",
   },
   {
@@ -38,7 +38,7 @@ export const tools: {
     name: "Deal Desk",
     oneLiner: "Scores pipeline risk, tells you when to cut bait and where those hours go instead — and argues back honestly when you disagree.",
     impact: "Includes The Meeting You're Not In: AI buyers debate your proposal so you see where it dies.",
-    status: "building",
+    status: "planned",
     eta: "December",
   },
   {
@@ -56,14 +56,6 @@ export const tools: {
     impact: "94% of B2B buyers fact-check AI. This makes sure your outreach survives it.",
     status: "planned",
     eta: "December",
-  },
-  {
-    slug: "prospector",
-    name: "ICP Prospector",
-    oneLiner: "Finds accounts that fit now, explains why in plain English, verifies contacts are still in seat, and learns from your feedback.",
-    impact: "Every contact carries a verified-on date and a confidence level instead of pretending.",
-    status: "planned",
-    eta: "January",
   },
   {
     slug: "call-coach",

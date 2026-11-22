@@ -23,7 +23,7 @@ const principles = [
   },
   {
     title: "Works for any company",
-    body: "Point it at AWS, Microsoft or a 40-person startup. Product Brain profiles the company once; every tool reuses it.",
+    body: "Point it at AWS, Microsoft or a 40-person startup. Set the ICP once from your company's website; every tool reuses it.",
   },
 ];
 
@@ -41,8 +41,8 @@ export default function Home() {
           business cases, call prep — and test whether it actually works.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/tools/product-brain" className="rounded-lg bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">
-            Try Product Brain
+          <Link href="/tools/prospector" className="rounded-lg bg-ink px-5 py-3 text-sm font-medium text-paper hover:opacity-90">
+            Try the Prospector
           </Link>
           <Link href="#tools" className="rounded-lg border border-line bg-card px-5 py-3 text-sm font-medium hover:border-ink">
             See all tools
@@ -65,7 +65,7 @@ export default function Home() {
       <section id="tools" className="mx-auto max-w-5xl scroll-mt-8 px-6 py-16">
         <h2 className="text-2xl font-semibold tracking-tight">The tools</h2>
         <p className="mt-2 max-w-2xl text-muted">
-          Six tools, built in public. Live ones work right now with no sign-up.
+          Built in public. Live ones work right now with no sign-up.
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {tools.map((t) => {
